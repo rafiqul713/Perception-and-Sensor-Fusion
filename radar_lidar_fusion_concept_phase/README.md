@@ -22,9 +22,9 @@ For simplicity, consider the constant velocity.
 
 
 ##### Input format (LiDAR):
-###### L	7.3426,	0.0345312,	1477010443969766,	7.35,	0.0500011,	-1.81648,	-0.90823
+###### L,	7.3426,	0.0345312,	1477010443969766,	7.35,	0.0500011,	-1.81648,	-0.90823
 ###### L (LiDAR), measurment_position_in_x_direction, measurement_position_in_y_direction, timestamp (when taken the measurement),  ground_truth_position_measurement_in_x_direction, ground_truth_position_measurement_in_y_direction, ground_truth_velocity_in_x_direction, ground_truth_velocity_in_y_direction
-![Alt text](media_file\visualization\lidar_meas.png?raw=true "LiDAR measurement")
+![Alt text](media_file/visualization/lidar_meas.png?raw=true "LiDAR measurement")
 ##### Output format: 
 ###### 6.96164	-0.0655127	-2.13393	-0.628335	6.74585	-0.143185	6.95	-0.15	-1.81898	-1.81898
 ###### predicted_position_in_x_direction, predicted_position_in_y_direction,
