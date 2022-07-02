@@ -18,7 +18,7 @@ For simplicity, consider the constant velocity.
 ###### R, 7.5087, 0.0127032,	-1.89765,	1477010443914714,	7.45,	0.100001,	-1.8165,	-0.908239
 	
 ###### R (RADAR), measurment_range, measurement_bearing, measurement_radial_velocity, timestamp (when taken the measurement),  ground_truth_position_measurement_in_x_direction, ground_truth_position_measurement_in_y_direction, ground_truth_velocity_in_x_direction, ground_truth_velocity_in_y_direction
-![Alt text](.\media_file\visualization\radar_meas.png?raw=true "RADAR measurement")
+![Alt text](https://github.com/rafiqul713/Perception-and-Sensor-Fusion/tree/feature/SF_007/radar_lidar_fusion_concept_phase/media_file/visualization/radar_meas.png?raw=true "RADAR measurement")
 
 
 ##### Input format (LiDAR):
