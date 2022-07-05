@@ -12,7 +12,7 @@ int main() {
 
     string line;
     string a, b, c,d,e,f,g,h;
-    ifstream inputfile("C:/Users/Asif/Desktop/sensor_data/1.txt");
+    ifstream inputfile("C:/Users/Asif/Desktop/Sensor-Fusion/radar_lidar_fusion_concept_phase/extended_kalman_filter/sensor_data/1.txt");
     vector<int> lider;
     vector<int> rader;
     vector<int> lider2;
@@ -23,7 +23,7 @@ int main() {
         istringstream ss(line);
         if (ss >> a >> b >> c >> d >> e >> f >> g >> h)
         {
-            cout << a;
+         
              lider.push_back(stod(b));
              rader.push_back(stod(c));
              lider2.push_back(stod(g));
