@@ -3,12 +3,14 @@
 #include <sstream>
 #include <vector>
 #include <stdlib.h>
+#include <chrono>
 #include "../eigen_lib/Dense"
 #include "../header/data.h"
 #include "../header/utility.h"
 #include "../header/fusion_with_ekf.h"
 
 using namespace std;
+using namespace std::chrono;
 using std::vector;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -90,9 +92,12 @@ int main(int argc, char* argv[]) {
 	ExtendedKalmanFilter extended_kalman_filter;
 	vector<VectorXd> state_estimation;
 	vector<VectorXd> ground_truths;
-
+	
+	auto total_duration = 0;
 	for (int data_indx = 0; data_indx < radar_lidar_raw_data.size(); ++data_indx) {
-
+		
+		auto start = high_resolution_clock::now(); // start counting execution time
+		
 		extended_kalman_filter.applyEKF(radar_lidar_raw_data[data_indx]); // apply extended kalman filter
 
 		VectorXd prediction = extended_kalman_filter.getStateFromPrediction();
@@ -115,7 +120,13 @@ int main(int argc, char* argv[]) {
 
 		state_estimation.push_back(prediction);
 		ground_truths.push_back(truth);
+		
+		auto stop = high_resolution_clock::now(); // End the Counting
+		auto duration = duration_cast<milliseconds>(stop - start);
+		total_duration = total_duration + duration.count();
 	}
+	
+	cout << "Total Time taken by function: " << total_duration << " milliseconds" << endl;
 
 	// close files
 	in_file.close();
