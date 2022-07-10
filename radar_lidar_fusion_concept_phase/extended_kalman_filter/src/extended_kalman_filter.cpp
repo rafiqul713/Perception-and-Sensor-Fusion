@@ -7,6 +7,7 @@
 #include "../header/data.h"
 #include "../header/utility.h"
 #include "../header/fusion_with_ekf.h"
+#include "../header/evaluation_metrics.h"
 
 using namespace std;
 using std::vector;
@@ -95,15 +96,15 @@ int main(int argc, char* argv[]) {
 
 		extended_kalman_filter.applyEKF(radar_lidar_raw_data[data_indx]); // apply extended kalman filter
 
-		VectorXd prediction = extended_kalman_filter.getStateFromPrediction();
+		VectorXd predicted_state = extended_kalman_filter.getStateFromPrediction();
 		VectorXd measurement = radar_lidar_raw_data[data_indx].getStateFromMeasurement();
 
 		VectorXd ground_truth_data_element = all_ground_truth_datas[data_indx].getRawMeasurementData();
 
-		out_file << prediction(0) << "\t";
-		out_file << prediction(1) << "\t";
-		out_file << prediction(2) << "\t";
-		out_file << prediction(3) << "\t";
+		out_file << predicted_state(0) << "\t";
+		out_file << predicted_state(1) << "\t";
+		out_file << predicted_state(2) << "\t";
+		out_file << predicted_state(3) << "\t";
 
 		out_file << measurement(0) << "\t";
 		out_file << measurement(1) << "\t";
@@ -113,13 +114,15 @@ int main(int argc, char* argv[]) {
 		out_file << ground_truth_data_element(2) << "\t";
 		out_file << ground_truth_data_element(3) << "\n";
 
-		state_estimation_list.push_back(prediction);
+		state_estimation_list.push_back(predicted_state);
 		ground_truth_list.push_back(ground_truth_data_element);
 	}
 
 	// close files
 	in_file.close();
 	out_file.close();
+
+	computeMeanSquareError(ground_truth_list, state_estimation_list);
 
 	return 0;
 }

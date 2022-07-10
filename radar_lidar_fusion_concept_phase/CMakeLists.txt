@@ -9,6 +9,8 @@ set(SOURCES 	extended_kalman_filter/src/extended_kalman_filter.cpp
 			extended_kalman_filter/src/data.cpp
 			extended_kalman_filter/src/fusion_with_ekf.cpp
             	extended_kalman_filter/src/kalman_filter.cpp
-			extended_kalman_filter/src/utility.cpp)
+			extended_kalman_filter/src/utility.cpp
+			extended_kalman_filter/src/evaluation_metrics.cpp			
+			)
 
 add_executable(extended_ekf ${SOURCES})
