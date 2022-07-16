@@ -7,6 +7,7 @@
 #include "../header/data.h"
 #include "../header/utility.h"
 #include "../header/fusion_with_ekf.h"
+#include "../header/evaluation_metrics.h"
 
 using namespace std;
 using std::vector;
@@ -23,7 +24,7 @@ int main(int argc, char* argv[]) {
 	is_valid_file(in_file, input_file_from_cmd, out_file, output_file_from_cmd);
 
 	vector<Data> radar_lidar_raw_data;
-	vector<Data> all_truth_data;
+	vector<Data> all_ground_truth_datas;
 	string sensor_type;
 	string line;
 
@@ -83,43 +84,45 @@ int main(int argc, char* argv[]) {
 		truth_data.set(timestamp, SourceOfData::STATE, truth_vec);
 
 		radar_lidar_raw_data.push_back(sensor_data);
-		all_truth_data.push_back(truth_data);
+		all_ground_truth_datas.push_back(truth_data);
 	}
 
 
 	ExtendedKalmanFilter extended_kalman_filter;
-	vector<VectorXd> state_estimation;
-	vector<VectorXd> ground_truths;
+	vector<VectorXd> state_estimation_list;
+	vector<VectorXd> ground_truth_list;
 
 	for (int data_indx = 0; data_indx < radar_lidar_raw_data.size(); ++data_indx) {
 
 		extended_kalman_filter.applyEKF(radar_lidar_raw_data[data_indx]); // apply extended kalman filter
 
-		VectorXd prediction = extended_kalman_filter.getStateFromPrediction();
+		VectorXd predicted_state = extended_kalman_filter.getStateFromPrediction();
 		VectorXd measurement = radar_lidar_raw_data[data_indx].getStateFromMeasurement();
 
-		VectorXd truth = all_truth_data[data_indx].getRawMeasurementData();
+		VectorXd ground_truth_data_element = all_ground_truth_datas[data_indx].getRawMeasurementData();
 
-		out_file << prediction(0) << "\t";
-		out_file << prediction(1) << "\t";
-		out_file << prediction(2) << "\t";
-		out_file << prediction(3) << "\t";
+		out_file << predicted_state(0) << "\t";
+		out_file << predicted_state(1) << "\t";
+		out_file << predicted_state(2) << "\t";
+		out_file << predicted_state(3) << "\t";
 
 		out_file << measurement(0) << "\t";
 		out_file << measurement(1) << "\t";
 
-		out_file << truth(0) << "\t";
-		out_file << truth(1) << "\t";
-		out_file << truth(2) << "\t";
-		out_file << truth(3) << "\n";
+		out_file << ground_truth_data_element(0) << "\t";
+		out_file << ground_truth_data_element(1) << "\t";
+		out_file << ground_truth_data_element(2) << "\t";
+		out_file << ground_truth_data_element(3) << "\n";
 
-		state_estimation.push_back(prediction);
-		ground_truths.push_back(truth);
+		state_estimation_list.push_back(predicted_state);
+		ground_truth_list.push_back(ground_truth_data_element);
 	}
 
 	// close files
 	in_file.close();
 	out_file.close();
+
+	computeMeanSquareError(ground_truth_list, state_estimation_list);
 
 	return 0;
 }

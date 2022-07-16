@@ -13,7 +13,7 @@ VectorXd convert_cartesian_to_polar(const VectorXd& v) {
 	const double vy = v(3);
 
 	const double rho = sqrt(px * px + py * py);
-	const double phi = atan2(py, px); //accounts for atan2(0, 0)
+	const double phi = atan2(py, px);
 	const double drho = (rho > THRESH) ? (px * vx + py * vy) / rho : 0.0;
 
 	polar_vec << rho, phi, drho;
