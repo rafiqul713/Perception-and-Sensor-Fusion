@@ -18,6 +18,13 @@ int main(int argc, char* argv[]) {
 
 	string input_file_from_cmd = argv[1];
 	string output_file_from_cmd = argv[2];
+	string activated_sensor_type = argv[3];
+	bool is_activate_radar = true;
+	bool is_activate_lidar = true;
+
+	sensor_activation(activated_sensor_type, is_activate_radar, is_activate_lidar);
+
+
 	ifstream in_file(input_file_from_cmd.c_str(), ifstream::in);
 	ofstream out_file(output_file_from_cmd.c_str(), ofstream::out);
 
@@ -39,7 +46,7 @@ int main(int argc, char* argv[]) {
 		read_line >> sensor_type;
 
 		// read radar data
-		if (sensor_type.compare("R") == 0) {
+		if ((sensor_type.compare("R") == 0) && is_activate_radar) {
 			double radar_meas_rho, radar_meas_phi, radar_meas_drho;
 
 			read_line >> radar_meas_rho;
@@ -52,8 +59,9 @@ int main(int argc, char* argv[]) {
 
 			sensor_data.set(timestamp, SourceOfData::RADAR, radar_vec);
 		}
+
 		// read lidar data
-		else if (sensor_type.compare("L") == 0) {
+		else if (sensor_type.compare("L") == 0 && is_activate_lidar) {
 			double lidar_meas_x, lidar_meas_y;
 
 			read_line >> lidar_meas_x;
@@ -69,7 +77,7 @@ int main(int argc, char* argv[]) {
 
 		else
 		{
-			// MISRA rules
+			continue;
 		}
 
 		double gt_x, gt_y, gt_vx, gt_vy;

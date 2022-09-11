@@ -80,3 +80,20 @@ void is_valid_file(std::ifstream& in_file, std::string& in_name, std::ofstream& 
 		exit(EXIT_FAILURE);
 	}
 }
+
+void sensor_activation(const std::string activated_sensor_type, bool& is_activate_radar, bool& is_activate_lidar)
+{
+	if (!activated_sensor_type.compare("R")) {
+		is_activate_radar = true;
+		is_activate_lidar = false;
+	}
+	else if (!activated_sensor_type.compare("L")) {
+		is_activate_radar = false;
+		is_activate_lidar = true;
+	}
+	else {
+		is_activate_radar = true;
+		is_activate_lidar = true;
+	}
+
+}

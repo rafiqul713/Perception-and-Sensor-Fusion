@@ -17,5 +17,6 @@ VectorXd convert_cartesian_to_polar(const VectorXd& v);
 VectorXd convert_polar_to_cartesian(const VectorXd& v);
 MatrixXd calculate_jacobian(const VectorXd &v);
 void is_valid_file(std::ifstream& in_file, std::string& in_name, std::ofstream& out_file, std::string& out_name);
+void sensor_activation(const std::string activated_sensor_type, bool& is_activate_radar, bool& is_activate_lidar);
 
 #endif
