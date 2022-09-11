@@ -80,3 +80,19 @@ void is_valid_file(std::ifstream& in_file, std::string& in_name, std::ofstream& 
 		exit(EXIT_FAILURE);
 	}
 }
+
+clock_t getCPUTime()
+{
+	clock_t cpu_time= clock();
+	
+	if (cpu_time != -1)
+	{
+		return cpu_time;
+	}
+
+	else
+	{
+		cerr << "clock() function does not work " << endl;
+		return 0;
+	}
+}

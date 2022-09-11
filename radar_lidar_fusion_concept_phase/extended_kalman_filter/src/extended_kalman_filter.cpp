@@ -27,6 +27,9 @@ int main(int argc, char* argv[]) {
 	string sensor_type;
 	string line;
 
+
+	clock_t start = getCPUTime();
+
 	// Read data from the file and store it in the vector
 	while (getline(in_file, line)) {
 
@@ -120,6 +123,9 @@ int main(int argc, char* argv[]) {
 	// close files
 	in_file.close();
 	out_file.close();
+
+	clock_t end = getCPUTime();
+	std::cout<<"Total time taken (including I/O operation) "<< (1.0*(end - start) / CLOCKS_PER_SEC)<<" seconds";
 
 	return 0;
 }
